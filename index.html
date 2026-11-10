@@ -7,9 +7,8 @@
 <meta name="description" content="Dsrt AI amplifies the models you already use — more quality, lower cost, verified results.">
 
 <!-- 🟡 PLACEHOLDER [SITE ICONS] -->
-<link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg">
-<link rel="icon" type="image/png" href="assets/icons/favicon.png">
-<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" href="assets/dsrt-logo.png">
+<link rel="apple-touch-icon" href="assets/dsrt-logo.png">
 
 <!-- 🟡 PLACEHOLDER [SOCIAL PREVIEW] — use an absolute https:// URL in production -->
 <meta property="og:title" content="Dsrt AI — Intelligence at your budget">
@@ -22,23 +21,21 @@
 /* =====================================================================
    ASSET MANIFEST (all placeholder paths — edit here)
    ---------------------------------------------------------------------
+   DSRT AI LOGO (used everywhere: nav, footer, dashboard, panels, icons)
+     assets/dsrt-logo.png
    BACKGROUNDS  (CSS variables below)
      BG 1  assets/images/backgrounds/bg-1-hero.jpg     page 1 (hero + dashboard)
-     BG 2  assets/images/backgrounds/bg-2-story.jpg    pages 2, 3, 4, 5 (shared)
+     BG 2  assets/images/backgrounds/bg-2-story.jpg    pages 2, 3, 4, 5 (shared, 1920×1020 native)
      BG 3  assets/images/backgrounds/bg-3-footer.jpg   footer (RAW — no veil, no blur)
    SECTION IMAGES  (<img> tags in the HTML, .png → .webp → .jpg → .jpeg)
      assets/images/sections/build.png                  page 2
      assets/images/sections/principle.png              page 3
      assets/images/sections/intelligence.png           page 4
      assets/images/sections/verification.png           page 5
-   LOGOS  (data-logo attribute, loaded by JS)
-     assets/logos/dsrt-ai-{nav|titlebar|sidebar|pill|panel|footer}.svg
-     assets/logos/dsrt-ai-mark.svg                     shared fallback
    ICONS
-     assets/icons/providers/<provider-key>.svg|png
+     assets/icons/providers/<provider-key>.svg|png     (the dsrt provider uses assets/dsrt-logo.png)
      assets/icons/models/<model-slug>.svg|png
      assets/icons/placeholder.svg|png
-     assets/icons/favicon.svg|png, apple-touch-icon.png
    Run listAssetPaths() in the console for the full generated list.
    ===================================================================== */
 
@@ -187,41 +184,31 @@ a:focus-visible,
     scroll-snap-stop: normal;
 }
 
-/* ================= BRAND LOGO IMAGES (loaded from assets/logos) ================= */
-
-.logo-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    padding: 16%;
-}
-
-.brand-icon-slot-mini .logo-img {
-    padding: 0;
-}
-
-/* ================= NAVIGATION — MATTE BLACK ================= */
+/* ================= NAVIGATION — TRANSPARENT AT TOP, OPAQUE ON SCROLL ================= */
 
 .nav {
     position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     height: 64px;
-    background: rgba(10, 10, 10, 0.72);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border-bottom: 1px solid var(--nav-border);
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: 1px solid transparent;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 40px;
     z-index: 1000;
-    transition: background 0.3s;
+    transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
 }
 
 .nav.scrolled {
-    background: rgba(10, 10, 10, 0.92);
+    background: #0a0a0a;
+    border-bottom-color: var(--nav-border);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
 }
 
 .nav-logo {
@@ -230,9 +217,14 @@ a:focus-visible,
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #ffffff;
+    color: var(--text-primary);
     text-decoration: none;
     letter-spacing: -0.02em;
+    transition: color 0.35s ease;
+}
+
+.nav.scrolled .nav-logo {
+    color: #ffffff;
 }
 
 .nav-logo .brand-icon-slot {
@@ -248,6 +240,14 @@ a:focus-visible,
     overflow: hidden;
 }
 
+.nav-logo .brand-icon-slot img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 12%;
+    display: block;
+}
+
 .nav-menu {
     display: flex;
     gap: 32px;
@@ -257,16 +257,25 @@ a:focus-visible,
 }
 
 .nav-link {
-    color: var(--nav-text-muted);
+    color: var(--text-secondary);
     font-size: 13.5px;
     font-weight: 500;
     text-decoration: none;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: color 0.35s ease;
     position: relative;
+    white-space: nowrap;
 }
 
 .nav-link:hover {
+    color: var(--text-primary);
+}
+
+.nav.scrolled .nav-link {
+    color: var(--nav-text-muted);
+}
+
+.nav.scrolled .nav-link:hover {
     color: #ffffff;
 }
 
@@ -276,38 +285,36 @@ a:focus-visible,
     align-items: center;
 }
 
-.btn-ghost {
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 8px 16px;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--nav-text);
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.12);
+.btn-get-started {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 20px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background: var(--text-primary);
     color: #ffffff;
-}
-
-.btn-primary-nav {
-    background: #ffffff;
-    color: #0a0a0a;
-    padding: 8px 18px;
-    border-radius: 999px;
-    border: none;
     font-size: 13px;
     font-weight: 600;
+    letter-spacing: 0.1px;
+    text-decoration: none;
+    white-space: nowrap;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background 0.35s ease, color 0.35s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-primary-nav:hover {
-    background: #e5e5e5;
+.btn-get-started:hover {
     transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18);
+}
+
+.nav.scrolled .btn-get-started {
+    background: #ffffff;
+    color: #0a0a0a;
+}
+
+.nav.scrolled .btn-get-started:hover {
+    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.15);
 }
 
 /* ================= PAGE 1 — TOP PAGE (hero + dashboard) =================
@@ -492,6 +499,7 @@ a:focus-visible,
     font-size: 11px;
     font-weight: 500;
     color: var(--app-text-dim);
+    white-space: nowrap;
 }
 
 .mac-titlebar-center .brand-icon-slot-mini {
@@ -500,7 +508,14 @@ a:focus-visible,
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0.7;
+    opacity: 0.85;
+}
+
+.mac-titlebar-center .brand-icon-slot-mini img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .mac-dot {
@@ -549,6 +564,15 @@ a:focus-visible,
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    flex-shrink: 0;
+}
+
+.sidebar-brand-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 14%;
+    display: block;
 }
 
 .sidebar-brand-text {
@@ -718,6 +742,7 @@ a:focus-visible,
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 6px;
 }
 
 .sp-val-left {
@@ -727,6 +752,13 @@ a:focus-visible,
     font-size: 12px;
     font-weight: 500;
     color: var(--app-text);
+    min-width: 0;
+}
+
+.sp-val-left > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     min-width: 0;
 }
 
@@ -819,6 +851,7 @@ a:focus-visible,
    assets/icons/providers/<key>.svg|png
    assets/icons/models/<slug>.svg|png
    Fallback order: .svg → .png → placeholder.svg → placeholder.png
+   The Dsrt AI provider uses assets/dsrt-logo.png
    ===================================================================== */
 
 .provider-icon-slot {
@@ -988,6 +1021,7 @@ a:focus-visible,
     border: 1px solid var(--app-border);
     margin-bottom: 12px;
     width: fit-content;
+    max-width: 100%;
 }
 
 .app-tab {
@@ -1054,17 +1088,20 @@ a:focus-visible,
     border-bottom: 1px solid var(--app-border);
     background: rgba(0, 0, 0, 0.25);
     flex-shrink: 0;
+    gap: 8px;
 }
 
 .panel-model {
     display: flex;
     align-items: center;
     gap: 8px;
+    min-width: 0;
 }
 
 .panel-model-info {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .panel-model-name {
@@ -1083,6 +1120,8 @@ a:focus-visible,
     display: flex;
     gap: 4px;
     align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .panel-badge {
@@ -1506,11 +1545,102 @@ a:focus-visible,
 .am-icon-url { background: rgba(129, 140, 248, 0.1); color: #a5b4fc; }
 
 /* =====================================================================
-   PAGES 2–5 — STORY WRAPPER
-   BG 2 is a sticky layer behind all four pages. It now REVEALS from
-   below as the user scrolls from page 1 into page 2 (slides up from
-   behind page 2), then stays continuous. Blur reduced from 14px → 5px.
+   CTA BAND — matte black box (between the demo and the manifesto)
    ===================================================================== */
+
+.cta-band {
+    position: relative;
+    padding: 90px 24px 120px;
+    background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+}
+
+.cta-box {
+    position: relative;
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 64px 64px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 48px;
+    overflow: hidden;
+    box-shadow: 0 30px 70px -30px rgba(15, 23, 42, 0.45);
+}
+
+.cta-stack {
+    display: grid;
+    min-width: 0;
+}
+
+/* All lines share one grid cell, so the box always fits the tallest line */
+.cta-line {
+    grid-area: 1 / 1;
+    align-self: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(22px, 2.6vw, 38px);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    opacity: 0;
+    transform: translate3d(0, 60%, 0);
+    transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+    will-change: transform, opacity;
+}
+
+.cta-line.is-active {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+.cta-line.is-out {
+    opacity: 0;
+    transform: translate3d(0, -60%, 0);
+}
+
+.cta-get {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 300px;
+    min-height: 150px;
+    padding: 30px 32px;
+    background: #ffffff;
+    color: #0a0a0a;
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(20px, 1.9vw, 26px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    text-align: center;
+    box-shadow: 0 18px 40px -18px rgba(255, 255, 255, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.cta-get span {
+    display: block;
+    white-space: nowrap;
+}
+
+.cta-get:hover {
+    transform: translateY(-2px);
+    background: #f1f5f9;
+    box-shadow: 0 22px 46px -18px rgba(255, 255, 255, 0.35);
+}
+
+/* ================= PAGES 2–5 — STORY WRAPPER =================
+   BG 2 is a sticky layer behind all four pages. It REVEALS from
+   below as the user scrolls from page 1 into page 2, then stays
+   continuous. The image is shown at its native 1920×1020 size
+   (no zoom).
+   ============================================================= */
 
 .story-wrap {
     position: relative;
@@ -1527,23 +1657,22 @@ a:focus-visible,
     pointer-events: none;
 }
 
-/* 🟡 PLACEHOLDER [BG 2] → assets/images/backgrounds/bg-2-story.jpg (see --bg-2-story)
-   Starts translated down and partially hidden; JS lifts it up as you
-   approach page 2 so it feels like it rises from behind the section. */
+/* 🟡 PLACEHOLDER [BG 2] → assets/images/backgrounds/bg-2-story.jpg (1920×1020, native size — no zoom)
+   Starts translated down and hidden; JS lifts it up as you approach page 2. */
 .story-bg-img {
     position: absolute;
-    inset: -6%;
+    inset: -60px 0;
     background:
-        var(--bg-2-story) center / cover no-repeat,
+        var(--bg-2-story) center / auto no-repeat,
         radial-gradient(1000px 600px at 12% 8%, rgba(37, 99, 235, 0.14), transparent 62%),
         radial-gradient(900px 600px at 88% 30%, rgba(167, 139, 250, 0.14), transparent 62%),
         radial-gradient(900px 600px at 40% 100%, rgba(6, 182, 212, 0.10), transparent 62%),
         linear-gradient(180deg, #f8fbff 0%, #eef3fb 100%);
-    transform: translate3d(0, 100%, 0) scale(1.08);
+    transform: translate3d(0, 100%, 0);
     will-change: transform;
 }
 
-/* Softer veil + lighter blur (was 14px, now 5px) */
+/* Softer veil + lighter blur */
 .story-bg-veil {
     position: absolute;
     inset: 0;
@@ -1708,13 +1837,14 @@ a:focus-visible,
     background: var(--blue-accent);
 }
 
+/* Main headings on pages 3, 4, 5 — black */
 .desc-title {
     font-family: 'Orbitron', sans-serif;
     font-size: clamp(27px, 3.2vw, 42px);
     font-weight: 600;
     line-height: 1.22;
     letter-spacing: -0.01em;
-    color: var(--blue-title);
+    color: #000000;
 }
 
 .desc-body {
@@ -2061,6 +2191,8 @@ a:focus-visible,
     display: flex;
     align-items: center;
     gap: 8px;
+    max-width: calc(100vw - 32px);
+    text-align: center;
 }
 
 .toast.show {
@@ -2147,6 +2279,14 @@ a:focus-visible,
     justify-content: center;
     flex-shrink: 0;
     overflow: hidden;
+}
+
+.footer-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 14%;
+    display: block;
 }
 
 .footer-tagline {
@@ -2249,6 +2389,11 @@ a:focus-visible,
 
 /* ================= RESPONSIVE ================= */
 
+@media (max-width: 1280px) {
+    .nav { padding: 0 28px; }
+    .nav-menu { gap: 22px; }
+}
+
 @media (max-width: 1200px) {
     .desc-row { grid-template-columns: 1fr 1fr; }
     .desc-row .split-image { grid-column: 1 / -1; max-width: 760px; margin: 0 auto; }
@@ -2264,34 +2409,75 @@ a:focus-visible,
     .app-sidebar { width: 200px; }
     .build-container { grid-template-columns: 1fr; gap: 48px; }
     .build-container .split-image { max-width: 640px; margin: 0 auto; width: 100%; }
+    .cta-box { grid-template-columns: 1fr; gap: 36px; padding: 52px 44px; }
+    .cta-get { width: 100%; min-width: 0; }
+}
+
+@media (max-width: 900px) {
+    .nav-menu { display: none; }
 }
 
 @media (max-width: 768px) {
     html { scroll-snap-type: none; }
-    .nav { padding: 0 16px; }
-    .nav-menu { display: none; }
-    .app-sidebar { display: none; }
-    .settings-row { flex-direction: column; }
-    .setting-pill { min-width: auto; }
+
+    /* Nav */
+    .nav { height: 60px; padding: 0 16px; }
+    .nav-logo { font-size: 16px; gap: 8px; }
+    .nav-logo .brand-icon-slot { width: 26px; height: 26px; }
+    .btn-get-started { padding: 8px 14px; font-size: 12.5px; }
+
+    /* Hero */
+    .hero-section { padding-top: 112px; padding-bottom: 40px; }
     .hero-content { padding: 0 16px; }
+    .hero-actions { flex-direction: column; align-items: stretch; max-width: 320px; margin: 0 auto; }
+    .btn-hero-primary, .btn-hero-secondary { width: 100%; }
+
+    /* Demo — compact on phones, full size on desktop */
+    .demo-section { padding: 0 12px; }
+    .app-sidebar { display: none; }
+    .app-main { padding: 14px; }
+    .settings-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .setting-pill { min-width: 0; padding: 7px 10px; }
+    .dropdown-menu { min-width: 0; width: min(300px, 80vw); }
+    .setting-pill:nth-child(even) .dropdown-menu { left: auto; right: 0; }
     .comparison-header { flex-direction: column; }
-    .ch-right { width: 100%; justify-content: space-between; }
-    .prompt-box { flex-wrap: wrap; }
-    .prompt-input { min-width: 180px; }
+    .ch-right { width: 100%; justify-content: space-between; gap: 8px; }
+    .ch-metric-val { font-size: 16px; }
+    .ch-title { font-size: 15px; }
+    .panel-header { flex-wrap: wrap; padding: 10px 12px; }
+    .panel-scroll-area { padding: 14px; }
+    .panel-col { height: 420px; }
+    .prompt-box { flex-wrap: wrap; row-gap: 4px; padding: 8px; }
+    .prompt-input { order: -1; flex: 1 1 100%; width: 100%; padding: 6px 4px; }
+    .prompt-controls { margin-left: auto; }
+    .attachment-menu { max-width: calc(100vw - 48px); }
+
+    /* Sections */
     .scroll-text-section { padding: 120px 20px 100px; min-height: auto; }
     .build-section { padding: 90px 20px; min-height: auto; }
     .desc-page { padding: 90px 20px 80px; min-height: auto; }
     .desc-row { grid-template-columns: 1fr; gap: 28px; }
     .split-image.xl { min-height: 280px; }
+
+    /* CTA band */
+    .cta-band { padding: 56px 12px 80px; }
+    .cta-box { padding: 40px 24px; gap: 28px; border-radius: 6px; }
+    .cta-get { min-height: 120px; padding: 26px 20px; }
+
+    /* Providers */
     .page-providers { padding: 90px 0 100px; }
     .pm-stage { height: 240px; }
     .pm-card { width: 140px; height: 84px; margin: -42px 0 0 -70px; }
+
+    /* Footer */
     .site-footer { padding: 64px 20px 48px; }
     .footer-group { margin-top: 36px; }
 }
 
 @media (max-width: 560px) {
     .footer-inner { grid-template-columns: 1fr; }
+    .settings-row { grid-template-columns: 1fr; }
+    .ch-metric-mini { padding: 4px 8px; }
 }
 
 /* Respect users who prefer no motion */
@@ -2300,7 +2486,8 @@ a:focus-visible,
     .scroll-text .sw { opacity: 1 !important; }
     html { scroll-behavior: auto; scroll-snap-type: none; }
     .page-bg { transform: none !important; }
-    .story-bg-img { transform: scale(1.04) !important; }
+    .story-bg-img { transform: none !important; }
+    .cta-line { transition: none; }
 }
 </style>
 </head>
@@ -2310,13 +2497,9 @@ a:focus-visible,
 
 <nav class="nav" id="siteNav">
     <a class="nav-logo" href="#demo">
-        <!-- 🟡 PLACEHOLDER [LOGO] → assets/logos/dsrt-ai-nav.svg (fallback: dsrt-ai-mark.svg) -->
-        <div class="brand-icon-slot" data-logo="dsrt-ai-nav">
-            <svg width="18" height="18" viewBox="0 0 40 40" fill="none">
-                <path d="M12 10h6l4 8-4 8h-6l4-8-4-8z" fill="#FFFFFF"/>
-                <path d="M20 10h6l4 8-4 8h-6l4-8-4-8z" fill="#FFFFFF" opacity="0.65"/>
-            </svg>
-        </div>
+        <span class="brand-icon-slot">
+            <img src="assets/dsrt-logo.png" alt="Dsrt AI logo" onerror="this.style.visibility='hidden'">
+        </span>
         Dsrt AI
     </a>
 
@@ -2329,13 +2512,7 @@ a:focus-visible,
     </div>
 
     <div class="nav-actions">
-        <button class="btn-ghost" onclick="showToast('Sign in is available in the full product')">
-            Sign in
-        </button>
-
-        <button class="btn-primary-nav" onclick="scrollToDemo()">
-            Start Amplifying
-        </button>
+        <a class="btn-get-started" href="Registration.html">Get Started</a>
     </div>
 </nav>
 
@@ -2397,12 +2574,8 @@ a:focus-visible,
                     <div class="mac-dot max"></div>
 
                     <div class="mac-titlebar-center">
-                        <!-- 🟡 PLACEHOLDER [LOGO] → assets/logos/dsrt-ai-titlebar.svg -->
-                        <div class="brand-icon-slot-mini" data-logo="dsrt-ai-titlebar">
-                            <svg width="12" height="12" viewBox="0 0 40 40" fill="none">
-                                <path d="M12 10h6l4 8-4 8h-6l4-8-4-8z" fill="currentColor"/>
-                                <path d="M20 10h6l4 8-4 8h-6l4-8-4-8z" fill="currentColor" opacity="0.5"/>
-                            </svg>
+                        <div class="brand-icon-slot-mini">
+                            <img src="assets/dsrt-logo.png" alt="Dsrt AI logo" onerror="this.style.visibility='hidden'">
                         </div>
                         Dsrt AI — War Mode
                     </div>
@@ -2414,12 +2587,8 @@ a:focus-visible,
 
                     <div class="app-sidebar">
                         <div class="sidebar-brand">
-                            <!-- 🟡 PLACEHOLDER [LOGO] → assets/logos/dsrt-ai-sidebar.svg -->
-                            <div class="sidebar-brand-icon" data-logo="dsrt-ai-sidebar">
-                                <svg width="14" height="14" viewBox="0 0 40 40" fill="none">
-                                    <path d="M12 10h6l4 8-4 8h-6l4-8-4-8z" fill="white"/>
-                                    <path d="M20 10h6l4 8-4 8h-6l4-8-4-8z" fill="white" opacity="0.6"/>
-                                </svg>
+                            <div class="sidebar-brand-icon">
+                                <img src="assets/dsrt-logo.png" alt="Dsrt AI logo" onerror="this.style.visibility='hidden'">
                             </div>
                             <div class="sidebar-brand-text">Dsrt AI</div>
                         </div>
@@ -2574,8 +2743,9 @@ a:focus-visible,
 
                                 <div class="sp-value">
                                     <div class="sp-val-left">
-                                        <!-- 🟡 PLACEHOLDER [LOGO] → assets/logos/dsrt-ai-pill.svg -->
-                                        <div class="provider-icon-slot small" data-logo="dsrt-ai-pill">D</div>
+                                        <div class="provider-icon-slot small">
+                                            <img class="icon-img" src="assets/dsrt-logo.png" alt="Dsrt AI logo" onerror="this.style.visibility='hidden'">
+                                        </div>
                                         DSRT
                                     </div>
 
@@ -2688,17 +2858,12 @@ a:focus-visible,
                             <div class="panel-col amplified" id="ampPanel">
                                 <div class="panel-header">
                                     <div class="panel-model">
-                                        <!-- 🟡 PLACEHOLDER [LOGO] → assets/logos/dsrt-ai-panel.svg -->
-                                        <div class="provider-icon-slot large" data-logo="dsrt-ai-panel">
-                                            <svg width="12" height="12" viewBox="0 0 40 40" fill="none">
-                                                <path d="M12 10h6l4 8-4 8h-6l4-8-4-8z" fill="white"/>
-                                                <path d="M20 10h6l4 8-4 8h-6l4-8-4-8z" fill="white" opacity="0.6"/>
-                                            </svg>
+                                        <div class="provider-icon-slot large">
+                                            <img class="icon-img" src="assets/dsrt-logo.png" alt="Dsrt AI logo" onerror="this.style.visibility='hidden'">
                                         </div>
 
                                         <div class="panel-model-info">
                                             <span class="panel-model-name">Dsrt AI</span>
-                                            <span class="panel-model-sub" id="ampModelSub">Amplified with OpenAI · GPT-4o</span>
                                         </div>
                                     </div>
 
@@ -2861,13 +3026,33 @@ a:focus-visible,
 </div>
 
 <!-- =====================================================================
+     CTA BAND — matte black box (after the demo, before the manifesto)
+     Lines cycle every few seconds. The white box links to Registration.html
+     ===================================================================== -->
+
+<section class="cta-band" id="ctaBand">
+    <div class="cta-box reveal from-up">
+        <div class="cta-stack" id="ctaStack">
+            <span class="cta-line is-active">More intelligence.</span>
+            <span class="cta-line">Greater efficiency.</span>
+            <span class="cta-line">Controlled AI expenditure.</span>
+        </div>
+
+        <a class="cta-get" href="Registration.html">
+            <span>Get Started</span>
+            <span>Dsrt AI</span>
+        </a>
+    </div>
+</section>
+
+<!-- =====================================================================
      PAGES 2–5 — STORY WRAPPER   (BG 2 shared by all four pages)
      The sticky BG rises from below as you scroll from page 1 → page 2.
      ===================================================================== -->
 
 <div class="story-wrap" id="storyWrap">
 
-    <!-- 🟡 PLACEHOLDER [BG 2] → assets/images/backgrounds/bg-2-story.jpg -->
+    <!-- 🟡 PLACEHOLDER [BG 2] → assets/images/backgrounds/bg-2-story.jpg (1920×1020, shown at native size) -->
     <div class="story-bg-stick" aria-hidden="true">
         <div class="story-bg-img" id="storyBgImg"></div>
         <div class="story-bg-veil"></div>
@@ -3064,12 +3249,8 @@ a:focus-visible,
         <!-- COLUMN 1 — Brand -->
         <div class="footer-brand">
             <a class="footer-brand-logo" href="#demo">
-                <!-- 🟡 PLACEHOLDER [LOGO] → assets/logos/dsrt-ai-footer.svg -->
-                <span class="footer-logo-mark" data-logo="dsrt-ai-footer">
-                    <svg width="14" height="14" viewBox="0 0 40 40" fill="none">
-                        <path d="M12 10h6l4 8-4 8h-6l4-8-4-8z" fill="white"/>
-                        <path d="M20 10h6l4 8-4 8h-6l4-8-4-8z" fill="white" opacity="0.6"/>
-                    </svg>
+                <span class="footer-logo-mark">
+                    <img class="footer-logo-img" src="assets/dsrt-logo.png" alt="Dsrt AI logo" onerror="this.style.visibility='hidden'">
                 </span>
                 Dsrt AI
             </a>
@@ -3149,7 +3330,7 @@ a:focus-visible,
             </div>
         </div>
 
-        <!-- COLUMN 4 — Company (its own column now) -->
+        <!-- COLUMN 4 — Company -->
         <div class="footer-col">
             <div class="footer-col-label">Company</div>
             <ul class="footer-links">
@@ -3178,7 +3359,7 @@ a:focus-visible,
 const ASSET_PATHS = {
     backgrounds: {
         'BG 1 · page 1 (hero + dashboard)': 'assets/images/backgrounds/bg-1-hero.jpg',
-        'BG 2 · pages 2–5 (shared)':        'assets/images/backgrounds/bg-2-story.jpg',
+        'BG 2 · pages 2–5 (shared, native 1920×1020)': 'assets/images/backgrounds/bg-2-story.jpg',
         'BG 3 · footer (raw, no filter)':   'assets/images/backgrounds/bg-3-footer.jpg'
     },
     sections: {
@@ -3188,22 +3369,25 @@ const ASSET_PATHS = {
         'Page 5 · verification': 'assets/images/sections/verification.png'
     },
     logos: {
-        'Navbar':           'assets/logos/dsrt-ai-nav.svg',
-        'Dashboard title':  'assets/logos/dsrt-ai-titlebar.svg',
-        'Dashboard sidebar':'assets/logos/dsrt-ai-sidebar.svg',
-        'Input Type pill':  'assets/logos/dsrt-ai-pill.svg',
-        'Amplified panel':  'assets/logos/dsrt-ai-panel.svg',
-        'Footer':           'assets/logos/dsrt-ai-footer.svg',
-        'Shared fallback':  'assets/logos/dsrt-ai-mark.svg'
+        'Dsrt AI logo (nav, footer, dashboard, panels, icons)': 'assets/dsrt-logo.png'
     },
     site: {
-        'Favicon (svg)':     'assets/icons/favicon.svg',
-        'Favicon (png)':     'assets/icons/favicon.png',
-        'Apple touch icon':  'assets/icons/apple-touch-icon.png',
-        'Icon placeholder':  'assets/icons/placeholder.svg',
-        'Social preview':    'assets/images/og-image.png'
+        'Favicon + apple touch icon': 'assets/dsrt-logo.png',
+        'Icon placeholder':           'assets/icons/placeholder.svg',
+        'Social preview':             'assets/images/og-image.png'
     }
 };
+
+/* =========================================================
+   DSRT AI LOGO
+   ========================================================= */
+
+const DSRT_LOGO = 'assets/dsrt-logo.png';
+
+function dsrtLogoImgHtml(altText = 'Dsrt AI') {
+    return `<img class="icon-img dsrt-logo-img" src="${DSRT_LOGO}" alt="${escapeHtml(altText)}"
+                 onerror="this.style.visibility='hidden'">`;
+}
 
 /* =========================================================
    ICON CONFIGURATION
@@ -3235,6 +3419,12 @@ function iconImgHtml(basePath, altText) {
                  data-step="0"
                  alt="${escapeHtml(altText)}"
                  onerror="iconFallback(this)">`;
+}
+
+/* Provider icon: Dsrt AI uses the PNG logo, everything else uses the provider icon set */
+function providerIconInner(providerKey, altText) {
+    if (providerKey === 'dsrt') return dsrtLogoImgHtml(altText || 'Dsrt AI');
+    return iconImgHtml(providerIconBase(providerKey), altText);
 }
 
 function iconFallback(img) {
@@ -3279,46 +3469,6 @@ function sectionImgFallback(img) {
 }
 
 window.sectionImgFallback = sectionImgFallback;
-
-/* =========================================================
-   BRAND LOGO LOADER
-   ========================================================= */
-
-const LOGO_BASE = 'assets/logos';
-const SHARED_LOGO = `${LOGO_BASE}/dsrt-ai-mark`;
-
-function tryLogo(slot, chain, index) {
-    if (index >= chain.length) return;
-
-    const probe = new Image();
-
-    probe.onload = () => {
-        slot.innerHTML = '';
-
-        const img = document.createElement('img');
-        img.className = 'logo-img';
-        img.src = chain[index];
-        img.alt = 'Dsrt AI';
-        slot.appendChild(img);
-        slot.classList.add('has-logo');
-    };
-
-    probe.onerror = () => tryLogo(slot, chain, index + 1);
-    probe.src = chain[index];
-}
-
-function loadBrandLogos() {
-    document.querySelectorAll('[data-logo]').forEach(slot => {
-        const name = slot.dataset.logo;
-
-        tryLogo(slot, [
-            `${LOGO_BASE}/${name}.svg`,
-            `${LOGO_BASE}/${name}.png`,
-            `${SHARED_LOGO}.svg`,
-            `${SHARED_LOGO}.png`
-        ], 0);
-    });
-}
 
 /* =========================================================
    PROVIDER REGISTRY
@@ -3531,7 +3681,10 @@ function listAssetPaths() {
     Object.entries(ASSET_PATHS.site).forEach(([slot, path]) => add('site', slot, path));
 
     Object.keys(providerRegistry).forEach(key => {
-        add('provider icon', providerRegistry[key].label, `${providerIconBase(key)}.svg  (or .png)`);
+        const path = key === 'dsrt'
+            ? DSRT_LOGO
+            : `${providerIconBase(key)}.svg  (or .png)`;
+        add('provider icon', providerRegistry[key].label, path);
     });
 
     const seen = new Set();
@@ -3850,6 +4003,10 @@ function escapeHtml(value) {
         .replace(/'/g, '&#039;');
 }
 
+function prefersReducedMotion() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 /* =========================================================
    ICON SLOT RENDERING
    ========================================================= */
@@ -3860,19 +4017,19 @@ function getProviderMeta(providerKey) {
 
 function renderProviderIconSlot(providerKey, size = 'medium') {
     const provider = getProviderMeta(providerKey);
-    return `<div class="provider-icon-slot ${size}" data-icon-slot="provider-${escapeHtml(slugify(providerKey))}">${iconImgHtml(providerIconBase(providerKey), provider.label)}</div>`;
+    return `<div class="provider-icon-slot ${size}" data-icon-slot="provider-${escapeHtml(slugify(providerKey))}">${providerIconInner(providerKey, provider.label)}</div>`;
 }
 
 function renderModelIconSlot(modelName, size = 'medium') {
     return `<div class="provider-icon-slot ${size}" data-icon-slot="model-${escapeHtml(slugify(modelName))}">${iconImgHtml(modelIconBase(modelName), modelName)}</div>`;
 }
 
-function setIconSlot(elementId, basePath, size, altText) {
+function setIconSlot(elementId, innerHtml, size) {
     const el = document.getElementById(elementId);
     if (!el) return;
 
     el.className = `provider-icon-slot ${size}`;
-    el.innerHTML = iconImgHtml(basePath, altText);
+    el.innerHTML = innerHtml;
 }
 
 /* =========================================================
@@ -3968,7 +4125,7 @@ function selectProvider(key) {
     const provider = getProviderMeta(key);
 
     document.getElementById('selectedProviderName').textContent = provider.label;
-    setIconSlot('selectedProviderIcon', providerIconBase(key), 'small', provider.label);
+    setIconSlot('selectedProviderIcon', providerIconInner(key, provider.label), 'small');
 
     const models = modelCatalogue[key] || [];
     if (models.length) {
@@ -4040,7 +4197,7 @@ function selectModel(name, providerKey) {
     const provider = getProviderMeta(providerKey);
 
     document.getElementById('selectedProviderName').textContent = provider.label;
-    setIconSlot('selectedProviderIcon', providerIconBase(providerKey), 'small', provider.label);
+    setIconSlot('selectedProviderIcon', providerIconInner(providerKey, provider.label), 'small');
 
     applySelectedModel(name, providerKey);
     renderProviderDropdown();
@@ -4050,22 +4207,21 @@ function selectModel(name, providerKey) {
     showToast(`🤖 Model: ${name}`);
 }
 
+/* Selecting a model only updates the selector pills.
+   The amplified (Dsrt AI) panel is always the same model as the raw panel
+   and does not change with the dropdown. */
 function applySelectedModel(name, providerKey) {
     selectedModelName = name;
-
-    const provider = getProviderMeta(providerKey);
 
     document.getElementById('selectedModelName').textContent = name;
     document.getElementById('promptModelName').textContent = name;
 
-    setIconSlot('selectedModelIcon', modelIconBase(name), 'small', name);
-
-    document.getElementById('ampModelSub').textContent =
-        `Amplified with ${provider.label} · ${name}`;
+    setIconSlot('selectedModelIcon', iconImgHtml(modelIconBase(name), name), 'small');
 }
 
 /* =========================================================
    RAW PANEL — fixed per scenario
+   The amplified panel uses this same model; it is never shown on that side.
    ========================================================= */
 
 function applyRawPanelForScenario(scenarioId) {
@@ -4078,7 +4234,7 @@ function applyRawPanelForScenario(scenarioId) {
     document.getElementById('rawModelSub').textContent =
         `${provider.label} · Native output · ${config.reasoningMode} reasoning`;
 
-    setIconSlot('rawPanelIcon', modelIconBase(config.modelName), 'large', config.modelName);
+    setIconSlot('rawPanelIcon', iconImgHtml(modelIconBase(config.modelName), config.modelName), 'large');
 }
 
 /* =========================================================
@@ -4383,8 +4539,7 @@ function buildScrollWords() {
 function updateScrollText() {
     if (!scrollTextEl || !scrollWords.length) return;
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) {
+    if (prefersReducedMotion()) {
         scrollWords.forEach(w => { w.style.opacity = 1; });
         return;
     }
@@ -4419,10 +4574,6 @@ const pageDotsEl = document.getElementById('pageDots');
 const pageDotLinks = pageDotsEl ? Array.from(pageDotsEl.querySelectorAll('a')) : [];
 const pageDotTargets = pageDotLinks.map(link => document.getElementById(link.dataset.target));
 
-function prefersReducedMotion() {
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
 function updateDynamicScroll() {
     const y = window.scrollY || window.pageYOffset;
 
@@ -4431,38 +4582,35 @@ function updateDynamicScroll() {
         pageBgEl.style.transform = `translate3d(0, ${shift}px, 0) scale(${1 + Math.min(y / 6000, 0.06)})`;
     }
 
+    /* Nav: fully transparent at the top, opaque once the page is scrolled */
     if (navEl) {
         navEl.classList.toggle('scrolled', y > 40);
     }
 }
 
 /* BG 2: rises from below as you approach page 2.
-   - When story-wrap's top is below the viewport (user still on page 1),
-     the BG is translated down (hidden below).
+   - While the story wrap is still below the viewport, the BG sits hidden below.
    - As the user scrolls into page 2, it slides up into place.
-   - Through pages 2–5 it drifts gently for parallax. */
+   - Through pages 2–5 it drifts gently for parallax.
+   The image is never scaled (native 1920×1020). */
 function updateStoryParallax() {
     if (!storyWrapEl || !storyBgImgEl || prefersReducedMotion()) return;
 
     const rect = storyWrapEl.getBoundingClientRect();
     const vh = window.innerHeight;
 
-    // Reveal progress: 0 when the wrap top is one viewport below the fold,
-    // 1 when the wrap top has reached the top of the viewport.
-    const revealRange = vh;
-    const revealProgress = Math.min(Math.max((vh - rect.top) / revealRange, 0), 1);
+    // 0 when the wrap top is one viewport below the fold, 1 when it reaches the top
+    const revealProgress = Math.min(Math.max((vh - rect.top) / vh, 0), 1);
 
     // Scroll progress through the wrap once fully entered (0 → 1)
     const scrollRange = Math.max(rect.height - vh, 1);
     const scrollProgress = Math.min(Math.max(-rect.top / scrollRange, 0), 1);
 
-    // Reveal shift: starts at +100% translation, ends at 0
-    const revealShiftPct = (1 - revealProgress) * 100;
-    // Parallax drift: ±45px once revealed
+    const revealShiftPx = (1 - revealProgress) * vh;
     const driftPx = (scrollProgress - 0.5) * -90 * revealProgress;
 
     storyBgImgEl.style.transform =
-        `translate3d(0, calc(${revealShiftPct.toFixed(2)}% + ${driftPx.toFixed(1)}px), 0) scale(1.08)`;
+        `translate3d(0, ${(revealShiftPx + driftPx).toFixed(1)}px, 0)`;
 }
 
 function updatePageDots() {
@@ -4527,6 +4675,41 @@ const revealObserver = new IntersectionObserver(entries => {
 });
 
 document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* =========================================================
+   CTA TICKER — "More intelligence." → "Greater efficiency." → "Controlled AI expenditure."
+   One line scrolls out upward while the next scrolls in, every few seconds.
+   ========================================================= */
+
+const ctaStackEl = document.getElementById('ctaStack');
+const ctaLines = ctaStackEl ? Array.from(ctaStackEl.querySelectorAll('.cta-line')) : [];
+const CTA_INTERVAL_MS = 3200;
+const CTA_TRANSITION_MS = 950;
+let ctaIndex = 0;
+let ctaTimer = null;
+
+function advanceCtaTicker() {
+    if (ctaLines.length < 2) return;
+
+    const outgoing = ctaLines[ctaIndex];
+    ctaIndex = (ctaIndex + 1) % ctaLines.length;
+    const incoming = ctaLines[ctaIndex];
+
+    outgoing.classList.remove('is-active');
+    outgoing.classList.add('is-out');
+
+    incoming.classList.remove('is-out');
+    incoming.classList.add('is-active');
+
+    setTimeout(() => outgoing.classList.remove('is-out'), CTA_TRANSITION_MS);
+}
+
+function startCtaTicker() {
+    if (ctaLines.length < 2 || prefersReducedMotion()) return;
+
+    clearInterval(ctaTimer);
+    ctaTimer = setInterval(advanceCtaTicker, CTA_INTERVAL_MS);
+}
 
 /* =========================================================
    PROVIDER MARQUEE — continuous arc
@@ -4675,16 +4858,14 @@ window.addEventListener('DOMContentLoaded', () => {
     renderProviderDropdown();
     renderModelDropdown(selectedProviderKey);
 
-    setIconSlot('selectedProviderIcon', providerIconBase(selectedProviderKey), 'small',
-        getProviderMeta(selectedProviderKey).label);
+    setIconSlot('selectedProviderIcon',
+        providerIconInner(selectedProviderKey, getProviderMeta(selectedProviderKey).label), 'small');
     applySelectedModel(selectedModelName, selectedProviderKey);
 
     loadScenario('ev');
 
     const evItem = document.querySelector('[data-scenario="ev"]');
     if (evItem) evItem.classList.add('active');
-
-    loadBrandLogos();
 
     buildScrollWords();
     updateScrollText();
@@ -4693,6 +4874,7 @@ window.addEventListener('DOMContentLoaded', () => {
     updatePageDots();
 
     startMarquee();
+    startCtaTicker();
 
     console.info('Dsrt AI: run listAssetPaths() to print every image / icon path the page looks for.');
 });
